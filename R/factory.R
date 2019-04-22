@@ -55,9 +55,7 @@ factory <- function(
       body(fun) <- body_replace(
         fn_body = body(fun),
         target = rlang::as_name(dot),
-        replacement = eval(parse(
-            text = paste0("quote(!!", dot, ")")
-          ))
+        replacement = as.call(list(as.name("!!"), as.name(dot)))
       )
     }
   } else {
