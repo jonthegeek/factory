@@ -17,8 +17,8 @@ You can install factory from [GitHub](https://github.com/) with:
 devtools::install_github("jonthegeek/factory")
 ```
 
-Example
--------
+Motivation
+----------
 
 Function factories are functions that make functions. They can be confusing to work with. For example, they can produce functions that are fragile (examples from [Advanced R by Hadley Wickham (2nd Edition), 10.2.3: Forcing Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation), "Gah" comments are me):
 
@@ -34,7 +34,6 @@ square1 <- power1(x)
 
 x <- 3
 square1(2) # Gah, fragile!
-#> [1] 8
 #> [1] 8
 ```
 
@@ -53,7 +52,6 @@ square2 <- power2(x)
 x <- 3
 square2(2)
 #> [1] 4
-#> [1] 4
 ```
 
 However, the resulting function can be hard to understand:
@@ -63,7 +61,7 @@ square2
 #> function(x) {
 #>     x ^ exp
 #>   }
-#> <environment: 0x0000000012c6ae78>
+#> <environment: 0x000000001496a9f0>
 ```
 
 You can make functions that are easier to understand, but building the function factory is much more difficulty (from [Advanced R by Hadley Wickham (2nd Edition), 19.7.4: Creating functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)):
