@@ -28,7 +28,7 @@ You can install factory from [GitHub](https://github.com/) with:
 devtools::install_github("jonthegeek/factory")
 ```
 
-## Example
+## Motivation
 
 Function factories are functions that make functions. They can be confusing to work with. For example, they can produce functions that are fragile (examples from [Advanced R by Hadley Wickham (2nd Edition), 10.2.3: Forcing Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation), "Gah" comments are me):
 
@@ -44,7 +44,6 @@ square1 <- power1(x)
 
 x <- 3
 square1(2) # Gah, fragile!
-#> [1] 8
 ```
 
 You can make factories that are lesss fragile, if you remember to `force` the variables.
@@ -61,7 +60,6 @@ x <- 2
 square2 <- power2(x)
 x <- 3
 square2(2)
-#> [1] 4
 ```
 
 However, the resulting function can be hard to understand:
