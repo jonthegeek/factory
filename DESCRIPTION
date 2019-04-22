@@ -1,15 +1,14 @@
 Package: factory
 Type: Package
 Title: Easily Build Function Factories
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     c(person(given = "Jon", 
              family = "Harmon", 
              role = c("aut", "cre"),
              email = "jon.harmon@macmillan.com")
     )
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Easily build function factories that act as "normal" functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
