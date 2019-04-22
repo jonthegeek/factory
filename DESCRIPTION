@@ -1,0 +1,18 @@
+Package: factory
+Type: Package
+Title: Easily Build Function Factories
+Version: 0.0.1
+Authors@R: 
+    c(person(given = "Jon", 
+             family = "Harmon", 
+             role = c("aut", "cre"),
+             email = "jon.harmon@macmillan.com")
+    )
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: 
+    rlang (>= 0.3.4)
