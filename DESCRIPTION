@@ -17,3 +17,6 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
     rlang (>= 0.3.4)
+Suggests: 
+    testthat (>= 2.1.0),
+    covr
