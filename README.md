@@ -6,7 +6,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-# factory <img src='man/figures/logo.png' align="right" height="138.5" />
+# factory <img src='man/figures/factory.png' align="right" height="138.5" />
 
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -70,7 +70,7 @@ square2
 #> function(x) {
 #>     x ^ exp
 #>   }
-#> <environment: 0x0000000016442018>
+#> <environment: 0x0000000016472980>
 ```
 
 You can make functions that are easier to understand, but building the function factory is much more difficulty (from [Advanced R by Hadley Wickham (2nd Edition), 19.7.4: Creating functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)): 
