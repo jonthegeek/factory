@@ -1,7 +1,7 @@
 Package: factory
 Type: Package
 Title: Easily Build Function Factories
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     c(person(given = "Jon", 
              family = "Harmon", 
@@ -9,6 +9,8 @@ Authors@R:
              email = "jon.harmon@macmillan.com")
     )
 Description: Easily build function factories that act as "normal" functions.
+URL: https://github.com/jonthegeek/factory
+BugReports: https://github.com/jonthegeek/factory/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
