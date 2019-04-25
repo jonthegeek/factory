@@ -25,7 +25,7 @@ power <- factory(
   fun = function(x) {
     x^exp
   },
-  exp =
+  exp
   )
 square <- power(y)
 square(2)
