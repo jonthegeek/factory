@@ -27,14 +27,12 @@ Easily Build Function Factories
 }
 \examples{
 y <- 3
-power <- factory(\\{
-  function(x) \\{
-    x ^ exp
-  \\}
-\\},
-exp =,
-.error_message = "Please provide an exponent for your function as exp.")
-square <- power()
+power <- factory(
+  fun = function(x) {x ^ exp},
+  exp =,
+  .error_message = "Please provide an exponent for your function as exp."
+)
+square <- power(2)
 square(2)
 square(y)
 y <- 7
