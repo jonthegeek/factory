@@ -1,3 +1,4 @@
+<!-- rmarkdown v1 -->
 ---
 output: github_document
 ---
@@ -12,20 +13,22 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# factory
+# factory <img src='man/figures/logo.png' align="right" height="138.5" />
 
 <!-- badges: start -->
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Travis build status](https://travis-ci.org/jonthegeek/factory.svg?branch=master)](https://travis-ci.org/jonthegeek/factory)
 <!-- badges: end -->
 
-The goal of factory is to make construction of function factories easy. This is very much a work in progress. I'm sure there are easier or better ways to implement this. I mostly wanted to see if I could do it.
+The goal of factory is to make construction of function factories more straightforward, without requiring the user to learn the `rlang` package.
 
 ## Installation
 
 You can install factory from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("jonthegeek/factory")
+# install.packages("remotes")
+remotes::install_github("jonthegeek/factory")
 ```
 
 ## Motivation
@@ -46,7 +49,7 @@ x <- 3
 square1(2) # Gah, fragile!
 ```
 
-You can make factories that are lesss fragile, if you remember to `force` the variables.
+You can make factories that are less fragile, if you remember to `force` the variables.
 
 ```{r power2}
 power2 <- function(exp) {
@@ -82,14 +85,14 @@ power3 <- function(exp) {
 }
 ```
 
-The resulting functions simply look like a normal function:
+The resulting functions look like a "normal" function, though, and are thus easier for users to understand:
 
 ```{r square3}
 square3 <- power3(2)
 square3
 ```
 
-The goal of `factory` is to make function factories as easy to create as in `power1`, but to make the resulting functions make as much sense as in `power3`:
+The goal of `factory` is to make function factories as straightforward to create as in `power1`, but to make the resulting functions make as much sense as in `power3`:
 
 ```{r power4}
 library(factory)
