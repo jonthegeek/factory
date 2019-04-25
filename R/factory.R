@@ -15,7 +15,7 @@
 #'     x^exp
 #'   },
 #'   exp
-#'   )
+#' )
 #' square <- power(y)
 #' square(2)
 #' y <- 7
