@@ -4,8 +4,7 @@
 \alias{factory}
 \title{Easily Build Function Factories}
 \usage{
-factory(fun, ...,
-  .error_message = "One or more arguments to this factory are missing.")
+factory(fun, ...)
 }
 \arguments{
 \item{fun}{An anonymous function to turn into a factory.}
@@ -15,9 +14,6 @@ have a default, use the somewhat strange construction \code{a =}. This also
 applies for \code{...}, so \code{... =}. Things on the RHS will be
 evaluated before building your factory unless explicitly quoted with
 \code{quote}. See examples.}
-
-\item{.error_message}{An optional error message for the factory to use when a
-required argument is not provided.}
 }
 \value{
 A function factory.
@@ -26,15 +22,13 @@ A function factory.
 Easily Build Function Factories
 }
 \examples{
-y <- 3
+y <- 2
 power <- factory(
   fun = function(x) {x ^ exp},
-  exp =,
-  .error_message = "Please provide an exponent for your function as exp."
+  exp =
 )
-square <- power(2)
+square <- power(y)
 square(2)
-square(y)
 y <- 7
-square(y)
+square(2)
 }

@@ -11,6 +11,7 @@ output: github_document
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/jonthegeek/factory.svg?branch=master)](https://travis-ci.org/jonthegeek/factory)
+[![Codecov test coverage](https://codecov.io/gh/jonthegeek/factory/branch/master/graph/badge.svg)](https://codecov.io/gh/jonthegeek/factory?branch=master)
 <!-- badges: end -->
 
 The goal of factory is to make construction of function factories more straightforward, without requiring the user to learn the `rlang` package.
@@ -70,7 +71,7 @@ square2
 #> function(x) {
 #>     x ^ exp
 #>   }
-#> <environment: 0x0000000016472980>
+#> <environment: 0x000000001644a730>
 ```
 
 You can make functions that are easier to understand, but building the function factory is much more difficulty (from [Advanced R by Hadley Wickham (2nd Edition), 19.7.4: Creating functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)): 

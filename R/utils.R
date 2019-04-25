@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' fun <- function(x) {
-#'   x ^ exp
+#'   x^exp
 #' }
 #' body_replace(body(fun), quote(exp), quote(!!exp))
 body_replace <- function(fn_body, target, replacement) {
@@ -20,7 +20,7 @@ body_replace <- function(fn_body, target, replacement) {
     return(replacement)
   } else if (length(fn_body) > 1) {
     # Break it down into pieces, and run each through fn_replace.
-    for(i in seq_along(fn_body)) {
+    for (i in seq_along(fn_body)) {
       fn_body[[i]] <- body_replace(fn_body[[i]], target, replacement)
     }
   }
