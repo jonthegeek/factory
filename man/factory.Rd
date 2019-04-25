@@ -24,9 +24,11 @@ Easily Build Function Factories
 \examples{
 y <- 2
 power <- factory(
-  fun = function(x) {x ^ exp},
+  fun = function(x) {
+    x^exp
+  },
   exp =
-)
+  )
 square <- power(y)
 square(2)
 y <- 7

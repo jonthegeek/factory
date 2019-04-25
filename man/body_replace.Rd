@@ -22,7 +22,7 @@ Replace quoted targets in the body of a function with quoted replacements.
 }
 \examples{
 fun <- function(x) {
-  x ^ exp
+  x^exp
 }
 body_replace(body(fun), quote(exp), quote(!!exp))
 }
