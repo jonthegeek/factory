@@ -1,3 +1,11 @@
+# factory 0.0.4
+
+* No longer need to use weird empty = in argument list (#4).
+
+# factory 0.0.3
+
+* Got rid of .error_message argument to factory.
+
 # factory 0.0.2
 
 * Added a `NEWS.md` file to track changes to the package.

@@ -9,9 +9,7 @@ factory(fun, ...)
 \arguments{
 \item{fun}{An anonymous function to turn into a factory.}
 
-\item{...}{Arguments for the factory function. If the argument should not
-have a default, use the somewhat strange construction \code{a =}. This also
-applies for \code{...}, so \code{... =}. Things on the RHS will be
+\item{...}{Arguments for the factory function. Things on the RHS will be
 evaluated before building your factory unless explicitly quoted with
 \code{quote}. See examples.}
 }
@@ -27,7 +25,7 @@ power <- factory(
   fun = function(x) {
     x^exp
   },
-  exp =
+  exp
   )
 square <- power(y)
 square(2)

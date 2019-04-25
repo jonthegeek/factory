@@ -44,3 +44,15 @@ test_that("factory errors", {
     NA
   )
 })
+
+test_that("Equals unnecessary for arguments.", {
+  overpower <- factory(
+    fun = function(x) {
+      x^exp^other
+    },
+    exp,
+    other =
+    )
+  square_cube <- overpower(2, 3)
+  expect_identical(square_cube(2), 2^2^3)
+})
