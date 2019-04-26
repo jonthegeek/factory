@@ -40,7 +40,7 @@ Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation),
 ``` r
 power1 <- function(exp) {
   function(x) {
-    x ^ exp
+    x^exp
   }
 }
 
@@ -59,7 +59,7 @@ the variables.
 power2 <- function(exp) {
   force(exp) # Gah, easy to forget!
   function(x) {
-    x ^ exp
+    x^exp
   }
 }
 
@@ -75,7 +75,7 @@ However, the resulting function can be hard to understand:
 ``` r
 square2
 #> function(x) {
-#>     x ^ exp
+#>     x^exp
 #>   }
 #> <environment: 0x00000000136124a8>
 ```
@@ -117,9 +117,9 @@ much sense as in `power3`:
 library(factory)
 power4 <- build_factory(
   fun = function(x) {
-    x ^ exp
+    x^exp
   },
-  exp = # For the time being, you need to tell factory which arguments belong to the factory.
+  exp # For the time being, you need to tell factory which arguments belong to the factory.
 )
 
 x <- 2

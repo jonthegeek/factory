@@ -39,7 +39,7 @@ Function factories are functions that make functions. They can be confusing to w
 ```{r power1}
 power1 <- function(exp) {
   function(x) {
-    x ^ exp
+    x^exp
   }
 }
 
@@ -56,7 +56,7 @@ You can make factories that are less fragile, if you remember to `force` the var
 power2 <- function(exp) {
   force(exp) # Gah, easy to forget!
   function(x) {
-    x ^ exp
+    x^exp
   }
 }
 
@@ -99,9 +99,9 @@ The goal of `factory` is to make function factories as straightforward to create
 library(factory)
 power4 <- build_factory(
   fun = function(x) {
-    x ^ exp
+    x^exp
   },
-  exp = # For the time being, you need to tell factory which arguments belong to the factory.
+  exp # For the time being, you need to tell factory which arguments belong to the factory.
 )
 
 x <- 2

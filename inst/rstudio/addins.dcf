@@ -1,0 +1,5 @@
+Name: Convert selection to factory
+Description: Interactively convert the selected function to a factory that produces similar functions
+Binding: convert_selection_to_factory
+Interactive: true
+
