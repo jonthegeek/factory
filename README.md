@@ -77,7 +77,7 @@ square2
 #> function(x) {
 #>     x ^ exp
 #>   }
-#> <environment: 0x0000000014bf22a8>
+#> <environment: 0x00000000136124a8>
 ```
 
 You can make functions that are easier to understand, but building the
@@ -115,7 +115,7 @@ much sense as in `power3`:
 
 ``` r
 library(factory)
-power4 <- factory(
+power4 <- build_factory(
   fun = function(x) {
     x ^ exp
   },

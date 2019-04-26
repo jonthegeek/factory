@@ -97,7 +97,7 @@ The goal of `factory` is to make function factories as straightforward to create
 
 ```{r power4}
 library(factory)
-power4 <- factory(
+power4 <- build_factory(
   fun = function(x) {
     x ^ exp
   },

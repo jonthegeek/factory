@@ -1,6 +1,7 @@
-# factory 0.0.4
+# factory 0.0.4.9000
 
 * No longer need to use weird empty = in argument list (#4).
+* Changed the main function to build_factory (a verb, #11).
 
 # factory 0.0.3
 

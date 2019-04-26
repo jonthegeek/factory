@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' y <- 2
-#' power <- factory(
+#' power <- build_factory(
 #'   fun = function(x) {
 #'     x^exp
 #'   },
@@ -20,7 +20,7 @@
 #' square(2)
 #' y <- 7
 #' square(2)
-factory <- function(
+build_factory <- function(
                     fun,
                     ...) {
   # To get the args for new_function, we need to use dots_list.

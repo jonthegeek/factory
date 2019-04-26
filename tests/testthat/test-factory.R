@@ -1,6 +1,6 @@
 test_that("factory basics work", {
   y <- 2
-  power <- factory(
+  power <- build_factory(
     fun = function(x) {
       x^exp
     },
@@ -14,7 +14,7 @@ test_that("factory basics work", {
 
 test_that("factory errors", {
   expect_error(
-    factory(
+    build_factory(
       fun = function(x) {
         x^exp
       }
@@ -22,7 +22,7 @@ test_that("factory errors", {
     "You must provide at least one argument to your factory"
   )
 
-  power <- factory(
+  power <- build_factory(
     fun = function(x) {
       x^exp
     },
@@ -33,7 +33,7 @@ test_that("factory errors", {
     "argument \"exp\" is missing, with no default"
   )
 
-  power <- factory(
+  power <- build_factory(
     fun = function(x) {
       x^exp
     },
@@ -46,7 +46,7 @@ test_that("factory errors", {
 })
 
 test_that("Equals unnecessary for arguments.", {
-  overpower <- factory(
+  overpower <- build_factory(
     fun = function(x) {
       x^exp^other
     },
