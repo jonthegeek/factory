@@ -1,3 +1,16 @@
+#'@importFrom htmltools htmlDependency
+fact_deps <- function(){
+  htmlDependency(
+    "factory", "0.0.1",
+    src = system.file("www", package = "factory"),
+    script = "code.js"
+  )
+}
+
+
+#'@importFrom miniUI miniPage gadgetTitleBar miniContentPanel
+#'@importFrom shiny tags observeEvent stopApp runGadget shinyApp
+#'@importFrom attempt stop_if_not stop_if
 convert_selection_to_factory <- function() {
   # The input to this function is a user-selected piece of text in an Rstudio
   # window, which must be a (normal) function definition, with or without a name
@@ -8,11 +21,13 @@ convert_selection_to_factory <- function() {
 
   context <- rstudioapi::getActiveDocumentContext()
   selected_text <- context$selection[[1]]$text
+  stop_if(selected_text, ~ .x == "",
+          "No selected texte found.")
 
   fun <- eval(parse(text = selected_text))
-  if (!inherits(fun, "function")) {
-    stop("The selection must be a function.")
-  }
+  stop_if_not(fun, ~ inherits(.x, "function"),
+              "The selection must be a function.")
+
 
   # Load selected_text into a UI. The user can highlight anything in the UI,
   # click a "make variable" button, and enter a variable name to replace that
@@ -25,21 +40,38 @@ convert_selection_to_factory <- function() {
   # make_factory as the first argument, with the variable names (and, when
   # relevant, default values) as ... arguments.
 
-  ui <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("Convert Selection to Factory"),
-    miniUI::miniContentPanel(
-      # ???
+  ui <- miniPage(
+    gadgetTitleBar("Convert Selection to Factory"),
+    miniContentPanel(
+      fact_deps(),
+      tags$pre(
+        id = "editable",
+        contenteditable = "true",
+        selected_text
+      ),
+      tags$br(),
+      # maybe a shiny::actionButton if you need to observe the click
+      # from server side
+      tags$button(
+        id = "modal",
+        "Make variable",
+        onclick = "changeStuff();"
+      )
     )
   )
 
   server <- function(input, output, session) {
 
-    # Whatever else the server function might do, in the end it puts the result
-    # of their make_factory call in place of the text they started with, plus a
-    # call to that factory to make their function.
     observeEvent(input$done, {
-      rstudioapi::insertText(deparsed_factory)
+      # This is for debug purpose (or you can add it to the final fun)
+      # input$content contains the raw text from the edited div
+      cli::cat_rule("text found:")
+      cli::cat_line(input$content)
+      rstudioapi::insertText(location = context$selection[[1]]$range, input$content)
       stopApp()
     })
+
   }
+
+  runGadget(shinyApp(ui, server))
 }

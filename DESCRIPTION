@@ -6,7 +6,12 @@ Authors@R:
     c(person(given = "Jon", 
              family = "Harmon", 
              role = c("aut", "cre"),
-             email = "jon.harmon@macmillan.com")
+             email = "jon.harmon@macmillan.com"),
+    person(given = "Colin", 
+             family = "Fay", 
+             role = c("ctb"),
+             email = "contact@colinfay.me",
+             comment=c(ORCID="0000-0001-7343-1846"))
     )
 Description: Easily build function factories that act as "normal" functions.
 URL: https://github.com/jonthegeek/factory
@@ -17,7 +22,11 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
     rlang (>= 0.3.4),
-    rstudioapi (>= 0.10)
+    rstudioapi (>= 0.10),
+    attempt,
+    miniUI,
+    shiny,
+    htmltools
 Suggests: 
     testthat (>= 2.1.0),
     covr
