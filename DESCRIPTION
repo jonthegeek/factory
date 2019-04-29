@@ -26,7 +26,8 @@ Imports:
     attempt,
     miniUI,
     shiny,
-    htmltools
+    htmltools,
+    stringr
 Suggests: 
     testthat (>= 2.1.0),
     covr

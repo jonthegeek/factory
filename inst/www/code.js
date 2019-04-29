@@ -1,6 +1,6 @@
 function changeStuff(){
   var a = document.getSelection().toString();
-  var lgg = prompt('What do you want to replace ' + a + " with?");
+  var lgg = prompt('Provide a variable name for ' + a + ".");
   document.execCommand("insertText", false, lgg)
 }
 

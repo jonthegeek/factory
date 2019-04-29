@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Jon Harmon \email{jon.harmon@macmillan.com}
 
+Other contributors:
+\itemize{
+  \item Colin Fay \email{contact@colinfay.me} (0000-0001-7343-1846) [contributor]
+}
+
 }
 \keyword{internal}
