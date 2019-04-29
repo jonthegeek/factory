@@ -122,7 +122,9 @@ convert_selection_to_factory <- function() {
       # selected text. In a future iteration, if they have anything, we should
       # end up with something like this (this example is the result of creating
       # a simple "square" function and then selecting its definition and
-      # generalizing into a "power" function):
+      # generalizing into a "power" function (called "square_factory" here
+      # because I imagine that'd be our default naming scheme)):
+
       # square_factory <- function (exp)
       # {
       #   rlang::new_function(as.pairlist(alist(x = )), rlang::expr({
@@ -132,7 +134,7 @@ convert_selection_to_factory <- function() {
       # square <- square_factory(2)
 
       # This doesn't work yet, because we don't have
-      # list_of_variables_and_defaults
+      # list_of_variables_and_defaults:
 
       # factoryized_function <- build_factory(
       #   fun = eval(parse(text = function_to_parse)),
