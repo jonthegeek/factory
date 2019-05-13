@@ -52,7 +52,45 @@ test_that("Equals unnecessary for arguments.", {
     },
     exp,
     other =
-    )
+  )
   square_cube <- overpower(2, 3)
   expect_identical(square_cube(2), 2^2^3)
+
+  power <- build_factory(
+    fun = function(x) {
+      x^exponent
+    },
+    exponent
+  )
+  square <- power(2)
+  expect_identical(square(2), 4)
+
+  power <- build_factory(
+    fun = function(x) {
+      x^exponent
+    },
+    exponent =
+  )
+  square <- power(2)
+  expect_identical(square(2), 4)
+
+  power <- build_factory(
+    fun = function(x) {
+      x^exponent
+    },
+    exponent = 2
+  )
+  square <- power()
+  expect_identical(square(2), 4)
+
+  power <- build_factory(
+    fun = function(x) {
+      x^exponent
+    },
+    exponent = quote(power_default)
+  )
+  power_default <- 2
+  square <- power()
+  power_default <- 3
+  expect_identical(square(2), 4)
 })

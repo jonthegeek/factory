@@ -38,9 +38,9 @@ Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation),
 “Gah” comments are me):
 
 ``` r
-power1 <- function(exp) {
+power1 <- function(exponent) {
   function(x) {
-    x^exp
+    x^exponent
   }
 }
 
@@ -56,10 +56,10 @@ You can make factories that are less fragile, if you remember to `force`
 the variables.
 
 ``` r
-power2 <- function(exp) {
-  force(exp) # Gah, easy to forget!
+power2 <- function(exponent) {
+  force(exponent) # Gah, easy to forget!
   function(x) {
-    x^exp
+    x^exponent
   }
 }
 
@@ -75,9 +75,9 @@ However, the resulting function can be hard to understand:
 ``` r
 square2
 #> function(x) {
-#>     x^exp
+#>     x^exponent
 #>   }
-#> <environment: 0x00000000136124a8>
+#> <environment: 0x00000000163ec068>
 ```
 
 You can make functions that are easier to understand, but building the
@@ -86,11 +86,11 @@ Wickham (2nd Edition), 19.7.4: Creating
 functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)):
 
 ``` r
-power3 <- function(exp) {
+power3 <- function(exponent) {
   rlang::new_function(
     rlang::exprs(x = ), 
     rlang::expr({
-      x ^ !!exp
+      x ^ !!exponent
     }), 
     rlang::caller_env()
   )
@@ -117,9 +117,9 @@ much sense as in `power3`:
 library(factory)
 power4 <- build_factory(
   fun = function(x) {
-    x^exp
+    x^exponent
   },
-  exp # For the time being, you need to tell factory which arguments belong to the factory.
+  exponent # For the time being, you need to tell factory which arguments belong to the factory.
 )
 
 x <- 2

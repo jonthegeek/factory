@@ -23,9 +23,9 @@ Easily Build Function Factories
 y <- 2
 power <- build_factory(
   fun = function(x) {
-    x^exp
+    x^exponent
   },
-  exp
+  exponent
 )
 square <- power(y)
 square(2)
