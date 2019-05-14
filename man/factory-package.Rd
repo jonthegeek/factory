@@ -6,7 +6,8 @@
 \alias{factory-package}
 \title{factory: Easily Build Function Factories}
 \description{
-Easily build function factories that act as "normal" functions.
+Easily build function factories that act as
+    "normal" functions.
 }
 \seealso{
 Useful links:

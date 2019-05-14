@@ -1,33 +1,34 @@
-Package: factory
 Type: Package
+Package: factory
 Title: Easily Build Function Factories
 Version: 0.0.4.9000
 Authors@R: 
-    c(person(given = "Jon", 
-             family = "Harmon", 
+    c(person(given = "Jon",
+             family = "Harmon",
              role = c("aut", "cre"),
              email = "jon.harmon@macmillan.com"),
-    person(given = "Colin", 
-             family = "Fay", 
-             role = c("ctb"),
+      person(given = "Colin",
+             family = "Fay",
+             role = "ctb",
              email = "contact@colinfay.me",
-             comment=c(ORCID="0000-0001-7343-1846"))
-    )
-Description: Easily build function factories that act as "normal" functions.
+             comment = c(ORCID = "0000-0001-7343-1846")))
+Description: Easily build function factories that act as
+    "normal" functions.
+License: MIT + file LICENSE
 URL: https://github.com/jonthegeek/factory
 BugReports: https://github.com/jonthegeek/factory/issues
-License: MIT + file LICENSE
+Imports: 
+    attempt,
+    cli,
+    htmltools,
+    miniUI,
+    rlang (>= 0.3.4),
+    rstudioapi (>= 0.10),
+    shiny,
+    stringr
+Suggests: 
+    covr,
+    testthat (>= 2.1.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Imports: 
-    rlang (>= 0.3.4),
-    rstudioapi (>= 0.10),
-    attempt,
-    miniUI,
-    shiny,
-    htmltools,
-    stringr
-Suggests: 
-    testthat (>= 2.1.0),
-    covr
