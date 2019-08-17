@@ -37,9 +37,9 @@ remotes::install_github("jonthegeek/factory")
 Function factories are functions that make functions. They can be confusing to work with. For example, they can produce functions that are fragile (examples from [Advanced R by Hadley Wickham (2nd Edition), 10.2.3: Forcing Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation), "Gah" comments are me):
 
 ```{r power1}
-power1 <- function(exp) {
+power1 <- function(exponent) {
   function(x) {
-    x ^ exp
+    x ^ exponent
   }
 }
 
@@ -53,10 +53,10 @@ square1(2) # Gah, fragile!
 You can make factories that are less fragile, if you remember to `force` the variables.
 
 ```{r power2}
-power2 <- function(exp) {
-  force(exp) # Gah, easy to forget!
+power2 <- function(exponent) {
+  force(exponent) # Gah, easy to forget!
   function(x) {
-    x ^ exp
+    x ^ exponent
   }
 }
 
@@ -75,11 +75,11 @@ square2
 You can make functions that are easier to understand, but building the function factory is much more difficulty (from [Advanced R by Hadley Wickham (2nd Edition), 19.7.4: Creating functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)): 
 
 ```{r power3}
-power3 <- function(exp) {
+power3 <- function(exponent) {
   rlang::new_function(
     rlang::exprs(x = ), 
     rlang::expr({
-      x ^ !!exp
+      x ^ !!exponent
     }), 
     rlang::caller_env()
   )
@@ -99,9 +99,9 @@ The goal of `factory` is to make function factories as straightforward to create
 library(factory)
 power4 <- build_factory(
   fun = function(x) {
-    x ^ exp
+    x ^ exponent
   },
-  exp = # For the time being, you need to tell factory which arguments belong to the factory.
+  exponent
 )
 
 x <- 2

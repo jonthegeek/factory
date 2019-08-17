@@ -1,7 +1,7 @@
 Package: factory
 Type: Package
 Title: Easily Build Function Factories
-Version: 0.0.4.9000
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Jon", 
              family = "Harmon", 
@@ -16,7 +16,13 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
-    rlang (>= 0.3.4)
+    purrr (>= 0.3.2),
+    rlang (>= 0.4.0)
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr,
+    roxygen2,
+    knitr,
+    rmarkdown,
+    ggplot2
+VignetteBuilder: knitr

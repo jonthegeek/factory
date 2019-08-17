@@ -1,0 +1,96 @@
+---
+title: "Building a Factory"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Building a Factory}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(factory)
+```
+
+To build a function factory, begin by writing the function that you want to generalize (like a normal function). Here we'll generalize a function to add a color scale to a ggplot using a custom palette.
+
+```{r function to generalize}
+my_scale_color <- function(discrete = TRUE, reverse = FALSE, ...) {
+  my_palette <- c(
+    "#772277", "#333388", "#1144aa", "#55aa11", 
+    "#f40000", "#f47a00", "#ffe314"
+  )
+  if (reverse) {
+    my_palette <- rev(my_palette)
+  }
+  pal <- colorRampPalette(my_palette, ...)
+  
+  if (discrete) {
+    ggplot2::discrete_scale(
+      aesthetics = "colour",
+      scale_name = "my_color_scale", 
+      palette = pal,
+      ...
+    )
+  } else {
+    ggplot2::scale_color_gradientn(colors = pal(256),)
+  }
+}
+
+ggplot2::ggplot(mtcars) + 
+  ggplot2::aes(x = mpg, y = cyl, color = factor(gear)) +
+  ggplot2::geom_point() + 
+  my_scale_color()
+```
+
+We could conceivably want to generalize this function to create a similar function, given a palette and (optionally) the name of the scale.
+
+```{r genericized function}
+my_scale_color_generic <- function(discrete = TRUE, reverse = FALSE, ...) {
+  my_palette <- this_palette
+  if (reverse) {
+    my_palette <- rev(my_palette)
+  }
+  pal <- colorRampPalette(my_palette, ...)
+  
+  if (discrete) {
+    ggplot2::discrete_scale(
+      aesthetics = "colour",
+      scale_name = this_scale_name, 
+      palette = pal,
+      ...
+    )
+  } else {
+    ggplot2::scale_color_gradientn(colors = pal(256),)
+  }
+}
+```
+
+We can use `factory::build_factory` to turn that function into a factory.
+
+```{r sample factory}
+my_scale_color_factory <- build_factory(
+  fun = my_scale_color_generic,
+  this_palette,
+  this_scale_name = "my_color_scale"
+)
+```
+
+Using our factory with the values we started with should reproduce the original function.
+
+```{r using the factor}
+my_scale_color_factory(
+  this_palette = c(
+    "#772277", "#333388", "#1144aa", "#55aa11", 
+    "#f40000", "#f47a00", "#ffe314"
+  )
+)
+```
+
+Note: If you use `factory` to build a factory in a package, we recommend that you copy/paste the resulting function definition into your package, rather than using the `factory::build_factory` call directly in your package. This will allow you to better comment your code, and will avoid [build errors](https://r6.r-lib.org/articles/Portable.html#potential-pitfalls-with-cross-package-inheritance).
