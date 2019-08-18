@@ -6,8 +6,8 @@
 \alias{factory-package}
 \title{factory: Build Function Factories}
 \description{
-A wrapper around rlang to more easily build function factories that
-    act as "normal" functions.
+More easily build function factories that act as "normal" 
+    functions.
 }
 \seealso{
 Useful links:

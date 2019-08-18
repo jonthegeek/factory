@@ -8,8 +8,8 @@ Authors@R:
              role = c("aut", "cre"),
              email = "jonthegeek@gmail.com")
     )
-Description: A wrapper around rlang to more easily build function factories that
-    act as "normal" functions.
+Description: More easily build function factories that act as "normal" 
+    functions.
 URL: https://github.com/jonthegeek/factory
 BugReports: https://github.com/jonthegeek/factory/issues
 License: MIT + file LICENSE
