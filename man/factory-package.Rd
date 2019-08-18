@@ -4,9 +4,10 @@
 \name{factory-package}
 \alias{factory}
 \alias{factory-package}
-\title{factory: Easily Build Function Factories}
+\title{factory: Build Function Factories}
 \description{
-Easily build function factories that act as "normal" functions.
+A wrapper around rlang to more easily build function factories that
+    act as "normal" functions.
 }
 \seealso{
 Useful links:
@@ -17,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jon Harmon \email{jon.harmon@macmillan.com}
+\strong{Maintainer}: Jon Harmon \email{jonthegeek@gmail.com}
 
 }
 \keyword{internal}

@@ -1,14 +1,15 @@
 Package: factory
 Type: Package
-Title: Easily Build Function Factories
+Title: Build Function Factories
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Jon", 
              family = "Harmon", 
              role = c("aut", "cre"),
-             email = "jon.harmon@macmillan.com")
+             email = "jonthegeek@gmail.com")
     )
-Description: Easily build function factories that act as "normal" functions.
+Description: A wrapper around rlang to more easily build function factories that
+    act as "normal" functions.
 URL: https://github.com/jonthegeek/factory
 BugReports: https://github.com/jonthegeek/factory/issues
 License: MIT + file LICENSE
