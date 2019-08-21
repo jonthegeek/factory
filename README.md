@@ -13,6 +13,8 @@ status](https://travis-ci.org/jonthegeek/factory.svg?branch=master)](https://tra
 status](https://ci.appveyor.com/api/projects/status/github/jonthegeek/factory?branch=master&svg=true)](https://ci.appveyor.com/project/jonthegeek/factory)
 [![Codecov test
 coverage](https://codecov.io/gh/jonthegeek/factory/branch/master/graph/badge.svg)](https://codecov.io/gh/jonthegeek/factory?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/factory)](https://CRAN.R-project.org/package=factory)
 <!-- badges: end -->
 
 The goal of factory is to make construction of function factories more
@@ -77,11 +79,11 @@ square2
 #> function(x) {
 #>     x ^ exponent
 #>   }
-#> <environment: 0x00000000163e5650>
+#> <environment: 0x0000000016cd2540>
 ```
 
 You can make functions that are easier to understand, but building the
-function factory is much more difficulty (from [Advanced R by Hadley
+function factory is much more difficult (from [Advanced R by Hadley
 Wickham (2nd Edition), 19.7.4: Creating
 functions](https://adv-r.hadley.nz/quasiquotation.html#new-function)):
 

@@ -6,8 +6,11 @@
 \alias{factory-package}
 \title{factory: Build Function Factories}
 \description{
-More easily build function factories that act as "normal" 
-    functions.
+Function factories are functions that make functions. They can be 
+    confusing to construct. Straightforward techniques can produce functions 
+    that are fragile or hard to understand. While more robust techniques exist 
+    to construct function factories, those techniques can be confusing. This 
+    package is designed to make it easier to construct function factories.
 }
 \seealso{
 Useful links:

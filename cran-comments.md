@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Elaborated the Description field to explain the purpose of the package and what it does.
+
 ## Test environments
 * local Windows 10 install, R 3.6.1
 * ubuntu 14.04 (on travis-ci), R 3.6.1

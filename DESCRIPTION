@@ -8,8 +8,11 @@ Authors@R:
              role = c("aut", "cre"),
              email = "jonthegeek@gmail.com")
     )
-Description: More easily build function factories that act as "normal" 
-    functions.
+Description: Function factories are functions that make functions. They can be 
+    confusing to construct. Straightforward techniques can produce functions 
+    that are fragile or hard to understand. While more robust techniques exist 
+    to construct function factories, those techniques can be confusing. This 
+    package is designed to make it easier to construct function factories.
 URL: https://github.com/jonthegeek/factory
 BugReports: https://github.com/jonthegeek/factory/issues
 License: MIT + file LICENSE
