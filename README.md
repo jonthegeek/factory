@@ -23,11 +23,18 @@ package.
 
 ## Installation
 
-You can install factory from [GitHub](https://github.com/) with:
+Install the released version of factory from CRAN:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("jonthegeek/factory")
+install.packages("factory")
+```
+
+Or install the development version from [GitHub](https://github.com/)
+with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("r-lib/usethis")
 ```
 
 ## Motivation
@@ -79,7 +86,7 @@ square2
 #> function(x) {
 #>     x ^ exponent
 #>   }
-#> <environment: 0x0000000016cd2540>
+#> <environment: 0x0000000014e21c18>
 ```
 
 You can make functions that are easier to understand, but building the

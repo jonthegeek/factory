@@ -26,11 +26,17 @@ The goal of factory is to make construction of function factories more straightf
 
 ## Installation
 
-You can install factory from [GitHub](https://github.com/) with:
+Install the released version of factory from CRAN:
 
-``` r
-# install.packages("remotes")
-remotes::install_github("jonthegeek/factory")
+```{r cran, eval = FALSE}
+install.packages("factory")
+```
+
+Or install the development version from [GitHub](https://github.com/) with:
+
+```{r dev, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("r-lib/usethis")
 ```
 
 ## Motivation
