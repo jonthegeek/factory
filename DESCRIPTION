@@ -1,7 +1,7 @@
 Package: factory
 Type: Package
 Title: Build Function Factories
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: 
     c(person(given = "Jon", 
              family = "Harmon", 
