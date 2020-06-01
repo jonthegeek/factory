@@ -33,8 +33,8 @@ Or install the development version from
 [GitHub](https://github.com/jonthegeek/factory) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("r-lib/usethis")
+# install.packages("remotes")
+remotes::install_github("jonthegeek/factory")
 ```
 
 ## Motivation
@@ -52,7 +52,7 @@ function factories, and why this package exists.
 Edition), 10.2.3: Forcing
 Evaluation](https://adv-r.hadley.nz/function-factories.html#forcing-evaluation))
 
-### The Simplest Factories
+### The Simplest Factories are Fragile
 
 `power1` is a function factory. It returns a function based on the
 `exponent` argument.
@@ -66,52 +66,73 @@ power1 <- function(exponent) {
 ```
 
 For many use cases, `power1` works fine. For example, we can define a
-square function by calling power1 with `exponent = 2`.
+square function by calling `power1` with `exponent = 2`.
 
 ``` r
 square1 <- power1(2)
 square1(2)
 #> [1] 4
+# 2 ^ 2 = 4
 square1(3)
 #> [1] 9
+# 3 ^ 2 = 9
 ```
 
-However, `power1` is fragile. For example, imagine we defined our square
-function by referencing a variable defined in the global environment.
+However, `power1` is fragile. Let’s think about what the definition of
+power1 *means.* The function returned by `power1` raises its argument to
+whatever the `exponent` variable is defined as. Let’s see what happens
+if we use a variable in the global environment to define our `square`
+function.
 
 ``` r
-x <- 2
-square1a <- power1(x)
+my_exponent <- 2
+square1a <- power1(my_exponent)
 ```
 
-If we call `square1a` before `x` changes, it works as expected.
+Due to R’s lazy evaluation, when we call `power1`, the `exponent`
+variable gets a promise to take on the value of the `my_exponent`
+variable. But `my_exponent` doesn’t actually have the value of `2` yet.
+Until we *use* `my_exponent`, it has a *promise* to get the value of
+`2`. If we call `square1a` right away, it works as expected.
 
 ``` r
 square1a(2)
 #> [1] 4
-x <- 3
+# 2 ^ 2 = 4
+my_exponent <- 3
 square1a(3)
 #> [1] 9
+# 3 ^ 2 = 9
 ```
 
-But if `x` changes in-between definition of our function and first call
-of that function, we get a different result.
+The `my_exponent` promise (which was passed in during the definition of
+`square1a`) resolves to `2` the first time it is needed (when `square1a`
+is first called). After that initial call, that is the value used in
+`square1a` forever.
+
+But if `my_exponent` changes between definition of our function and
+first call of that function, we get a different result.
 
 ``` r
-x <- 2
-square1b <- power1(x)
-x <- 3
+my_exponent <- 2
+square1b <- power1(my_exponent)
+my_exponent <- 3
 square1b(2)
 #> [1] 8
+# 2 ^ 3 = 8
 square1b(3)
 #> [1] 27
+# 3 ^ 3 = 27
 ```
 
-This fragility results from `x` being a **promise** in the `square1b`
-function environment. Once the promise is evaluated, its value is
-“fixed,” and the function works as expected.
+What happened? When `square1b` was defined, `my_exponent` was passed in
+as a *promise.* However, before `my_exponent` was ever actually *used*,
+its value changed. The promise isn’t evaluated *until it is used,*
+which, in this case, is the first time `square1b` is called. Once the
+promise is evaluated, its value is “fixed,” and the function works as
+expected.
 
-### Forcing arguments
+### Forcing Arguments Trades Fragility for Complexity
 
 We can make factories that are less fragile, if we remember to `force`
 the variables.
@@ -124,27 +145,66 @@ power2 <- function(exponent) {
   }
 }
 
-x <- 2
-square2 <- power2(x)
-x <- 3
+my_exponent <- 2
+square2 <- power2(my_exponent)
+my_exponent <- 3
 square2(2)
 #> [1] 4
+# 2 ^ 2 = 4
 square2(3)
 #> [1] 9
+# 3 ^ 2 = 9
 ```
 
-However, the resulting function can be hard to understand:
+Why does this work? The `force` function forces the evaluation of its
+argument. We don’t really need to use `force`, per se. Any function that
+forces evaluation would work, but `force` makes it obvious why we’re
+doing it. For example, we could produce the same result by `message`ing
+within the factory.
 
 ``` r
+power2b <- function(exponent) {
+  message("The exponent's value is ", exponent)
+  function(x) {
+    x ^ exponent
+  }
+}
+
+my_exponent <- 2
+square2b <- power2b(my_exponent)
+#> The exponent's value is 2
+my_exponent <- 3
+square2b(2)
+#> [1] 4
+# 2 ^ 2 = 4
+square2b(3)
+#> [1] 9
+# 3 ^ 2 = 9
+```
+
+Since the value of `exponent` is needed for the message, the promise is
+evaluated when the factory is invoked, and the resulting function is
+stable.
+
+While such factories are more stable, it’s easy to miss a `force`. And,
+in both of these cases, the resulting functions are difficult to
+understand as a user.
+
+``` r
+square1
+#> function(x) {
+#>     x ^ exponent
+#>   }
+#> <environment: 0x00000000149dfa40>
 square2
 #> function(x) {
 #>     x ^ exponent
 #>   }
-#> <environment: 0x0000000014963a28>
+#> <environment: 0x000000001d130908>
 ```
 
-It isn’t clear what this function will do, since the definition of
-`exponent` is hidden inside the function’s environment.
+It isn’t clear what these functions will do, since the definitions of
+`exponent` are hidden inside the function environments.
 
 ### Using rlang
 
@@ -166,7 +226,7 @@ power3 <- function(exponent) {
 ```
 
 The resulting functions look like a “normal” function, though, and are
-thus easier for users to understand:
+thus easier for users to understand.
 
 ``` r
 square3 <- power3(2)
@@ -177,11 +237,18 @@ square3
 #> }
 ```
 
+The {rlang} calls are very difficult to understand, though. It would be
+nice to get the stability and interpretability of the rlang-produced
+functions, with the ease-of-programming of the simplest function
+factories.
+
 ## Enter {factory}
 
 The goal of `factory` is to make function factories as straightforward
 to create as in `power1`, but to make the resulting functions make as
-much sense as in `power3`:
+much sense as in `power3`. Right now, the calls are still a *little*
+more complicated than I would like, but they’re definitely easier to
+understand than the {rlang} calls.
 
 ``` r
 library(factory)
@@ -192,14 +259,15 @@ power4 <- build_factory(
   exponent
 )
 
-x <- 2
-square4 <- power4(x)
-x <- 3
+my_exponent <- 2
+square4 <- power4(my_exponent)
+my_exponent <- 3
 square4(2)
 #> [1] 4
+# 2 ^ 2 = 4
 ```
 
-The resulting function makes sense, as with power3:
+The resulting function makes sense, as with `power3`.
 
 ``` r
 square4
