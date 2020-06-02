@@ -69,3 +69,17 @@ test_that("NULL default arguments work.", {
   add_a <- null_ok("a")
   expect_identical(add_a("b"), c("b", "a"))
 })
+
+test_that("dots [...] as arguments work.", {
+  dots_ok <- build_factory(
+    fun = function(x, ...) {
+      x + y + sum(...)
+    },
+    y
+  )
+
+  add_one <- dots_ok(1)
+  expect_identical(add_one(2,3,4), 10)
+  expect_setequal(formalArgs(add_one), c("x", "..."))
+  expect_identical(as.character(body(add_one)[-1]), "x + 1 + sum(...)")
+})
