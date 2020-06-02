@@ -4,7 +4,7 @@
 \alias{build_factory}
 \title{Easily Build Function Factories}
 \usage{
-build_factory(fun, ..., pass_dots = FALSE)
+build_factory(fun, ..., .pass_dots = FALSE, .internal_variables = NULL)
 }
 \arguments{
 \item{fun}{A function to turn into a factory.}
@@ -13,10 +13,13 @@ build_factory(fun, ..., pass_dots = FALSE)
 evaluated before building your factory unless explicitly quoted with
 \code{quote}. See examples.}
 
-\item{pass_dots}{A logical indicating whether the factory should accept
+\item{.pass_dots}{A logical indicating whether the factory should accept
 additional arguments (...) to pass on to methods. In order for this to
 work, the manufactured function *must* also include dots, and the input
 \code{fun} must indicate where those dots are used.}
+
+\item{.internal_variables}{A named list of additional code to run to create
+additional variables used by the factory.}
 }
 \value{
 A function factory.
@@ -36,4 +39,21 @@ square <- power(y)
 square(2)
 y <- 7
 square(2)
+
+base_bins <- build_factory(
+  .internal_variables = list(
+    nclass_fun = switch(
+      type,
+      Sturges = nclass.Sturges,
+      scott = nclass.scott,
+      FD = nclass.FD,
+      stop("Unknown type", call. = FALSE)
+    )
+  ),
+  fun = function(x) {
+    (max(x) - min(x) / nclass_fun(x))
+  },
+  type
+)
+base_bins("Sturges")
 }
