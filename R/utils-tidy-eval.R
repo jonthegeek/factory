@@ -11,4 +11,3 @@
 #'   function parameter).
 #' @param rhs The thing to assign to that parameter.
 NULL
-

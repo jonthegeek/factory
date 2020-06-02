@@ -1,4 +1,8 @@
-# factor 0.1.0
+# factory 0.1.0.9000
+
+* Refactored for cleaner code (@TylerGrantSmith).
+
+# factory 0.1.0
 
 * Fixed ... arguments (exp example tricked me) (@jonthegeek).
 * Fixed NULL default arguments (@jonthegeek).

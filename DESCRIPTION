@@ -6,7 +6,13 @@ Authors@R:
     c(person(given = "Jon", 
              family = "Harmon", 
              role = c("aut", "cre"),
-             email = "jonthegeek@gmail.com")
+             email = "jonthegeek@gmail.com",
+             comment = c(ORCID = "0000-0003-4781-4346")
+      ),
+      person(given = "Tyler Grant", 
+             family = "Smith", 
+             role = "ctb"
+      )
     )
 Description: Function factories are functions that make functions. They can be 
     confusing to construct. Straightforward techniques can produce functions 
@@ -18,7 +24,7 @@ BugReports: https://github.com/jonthegeek/factory/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Imports: 
     purrr (>= 0.3.2),
     rlang (>= 0.4.0),

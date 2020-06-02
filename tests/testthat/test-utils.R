@@ -8,3 +8,14 @@ test_that("body_replace replaces bits of bodies", {
   }
   expect_identical(test_fun, expected_fun)
 })
+
+test_that("body_insert errors appropriately.", {
+  fun <- function(x) x + 1
+  expect_error(
+    body_insert(
+      fn_body = body(fun),
+      insertion = quote("Should not matter")
+    ),
+    regexp = "Please wrap your function"
+  )
+})

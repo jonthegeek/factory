@@ -21,7 +21,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jon Harmon \email{jonthegeek@gmail.com}
+\strong{Maintainer}: Jon Harmon \email{jonthegeek@gmail.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Tyler Grant Smith [contributor]
+}
 
 }
 \keyword{internal}

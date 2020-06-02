@@ -4,14 +4,19 @@
 \alias{build_factory}
 \title{Easily Build Function Factories}
 \usage{
-build_factory(fun, ...)
+build_factory(fun, ..., pass_dots = FALSE)
 }
 \arguments{
-\item{fun}{An anonymous function to turn into a factory.}
+\item{fun}{A function to turn into a factory.}
 
 \item{...}{Arguments for the factory function. Things on the RHS will be
 evaluated before building your factory unless explicitly quoted with
 \code{quote}. See examples.}
+
+\item{pass_dots}{A logical indicating whether the factory should accept
+additional arguments (...) to pass on to methods. In order for this to
+work, the manufactured function *must* also include dots, and the input
+\code{fun} must indicate where those dots are used.}
 }
 \value{
 A function factory.
