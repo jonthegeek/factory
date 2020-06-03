@@ -1,0 +1,319 @@
+---
+title: "Examples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(factory)
+```
+
+Most of these examples are adapted from [Advanced R by Hadley Wickham (2nd Edition), Chapter 10: Function Factories](https://adv-r.hadley.nz/function-factories.html).
+
+## 10.2.6 Exercises
+
+In the exercises for section 10.2.6, we're asked to produce a `pick` factory that basically acts like `[[`, such that `pick(1)(x)` is equivalent to `x[[1]]`.
+We can relatively easily create this simple factory in {factory}.
+
+```{r pick}
+pick <- build_factory(
+  function(x) x[[i]],
+  i
+)
+
+identical(pick(1)(mtcars), mtcars[[1]]) 
+identical(pick(2)(mtcars), mtcars[[2]]) 
+identical(pick(3)(mtcars$disp), mtcars$disp[[3]]) 
+identical(
+  lapply(mtcars, pick(5)),
+  lapply(mtcars, function(x) x[[5]])
+)
+```
+
+We're also asked to create another factory, this time for finding the i^th^ central moment. 
+We first create a two-argument function to calculate the central moment.
+
+```{r central-moment-2-arg}
+moment2 <- function(x, i) {
+  1/length(x) *
+    sum(
+      (x - mean(x))^i
+    )
+}
+
+x <- runif(100)
+all.equal(moment2(x, 1), 0)
+all.equal(moment2(x, 2), var(x) * 99/100)
+```
+
+Since this works, we can pull `i` out to make our factory.
+
+```{r central-moment-factory}
+moment1 <- function(x) {
+  1/length(x) *
+    sum(
+      (x - mean(x))^i
+    )
+}
+
+moment <- build_factory(
+  moment1,
+  i
+)
+
+m1 <- moment(1)
+m2 <- moment(2)
+
+all.equal(m1(x), 0)
+all.equal(m2(x), var(x) * 99/100)
+```
+
+## Scales
+
+The {scales} package contains a number of function factories. 
+These factories are written in the traditional format, and thus produce confusing functions. 
+Let's see if we can make them easier to work with.
+
+One of the workhorse functions of {scales} is `number_format`.
+
+```{r number-format}
+scales::number_format
+```
+
+This factory takes several arguments, and returns a function that is simply a call to the `number` function. 
+Let's see if we can recreate this factory. 
+I'm naming the rebuilt versions with a `format_` prefix instead of suffix, to "fix" the "unfortunate accident of history" mentioned by Hadley Wickham while discussing these examples.
+
+```{r number-format-redux}
+format_number <- build_factory(
+  function(x, ...) {
+    scales::number(
+      x,
+      accuracy = accuracy, scale = scale, prefix = prefix, suffix = suffix,
+      big.mark = big.mark, decimal.mark = decimal.mark, trim = trim, ...
+    )
+  },
+  accuracy = NULL,
+  scale = 1,
+  prefix = "",
+  suffix = "",
+  big.mark = " ",
+  decimal.mark = ".",
+  trim = TRUE,
+  .pass_dots = TRUE
+)
+
+identical(
+  scales::number_format(width = 8)(1:10 * 10000),
+  format_number(width = 8)(1:10 * 10000)
+)
+```
+
+We had to do a couple special things to get our factory to behave like the {scales} version:
+
+* The version in scales passes the `...` from the factory without officially declaring dots as an argument to the manufactured function. We more formally include the dots.
+* We have to tell `build_factory` that we want to `pass_dots` from the factory to its constructed functions.
+
+Our factory also works to define our own version of `comma_format`.
+
+```{r comma-format}
+scales::comma_format
+
+format_comma <- function(accuracy = NULL, scale = 1, prefix = "", 
+                             suffix = "", big.mark = ",", decimal.mark = ".", 
+                             trim = TRUE, digits, ...) {
+  if (!missing(digits)) {
+    warning("`digits` argument is deprecated, use `accuracy` instead.", 
+            .call = FALSE)
+  }
+  format_number(
+    accuracy = accuracy, scale = scale, prefix = prefix, suffix = suffix, 
+    big.mark = big.mark, decimal.mark = decimal.mark, trim = trim, ...
+  )
+}
+
+identical(
+  scales::comma_format(width = 8)(1:10 * 10000),
+  format_comma(width = 8)(1:10 * 10000)
+)
+```
+
+## binwidth
+
+The `binwidth` argument of `ggplot2::geom_histogram` can be a function. 
+Let's recreate examples of binwidth function factories.
+
+```{r binwidth-bins}
+binwidth_bins <- build_factory(
+  function(x) {
+    (max(x) - min(x)) / n
+  },
+  n
+)
+
+sd <- c(1, 5, 15)
+m <- 100
+df <- data.frame(
+  x = rnorm(3 * m, sd = sd),
+  sd = rep(sd, m)
+) 
+
+df %>% 
+  ggplot2::ggplot() +
+  ggplot2::aes(x) +
+  ggplot2::geom_histogram(binwidth = 2) +
+  ggplot2::facet_wrap(~ sd, scales = "free_x") +
+  ggplot2::labs(x = NULL)
+
+df %>% 
+  ggplot2::ggplot() +
+  ggplot2::aes(x) +
+  ggplot2::geom_histogram(binwidth = binwidth_bins(20)) +
+  ggplot2::facet_wrap(~ sd, scales = "free_x") +
+  ggplot2::labs(x = NULL)
+
+```
+
+We can also wrap functions from {grDevices} that automatically find "optimal" binwidth.
+
+```{r base-optimal-binwidth}
+base_bins <- build_factory(
+  .internal_variables = list(
+    nclass_fun = switch(
+      type,
+      Sturges = grDevices::nclass.Sturges,
+      scott = grDevices::nclass.scott,
+      FD = grDevices::nclass.FD,
+      stop("Unknown type", call. = FALSE)
+    )
+  ),
+  fun = function(x) {
+    (max(x) - min(x)) / nclass_fun(x)
+  },
+  type
+)
+
+df %>% 
+  ggplot2::ggplot() +
+  ggplot2::aes(x) +
+  ggplot2::geom_histogram(binwidth = base_bins("FD")) +
+  ggplot2::facet_wrap(~ sd, scales = "free_x") +
+  ggplot2::labs(x = NULL)
+```
+
+## Bootstrap generator
+
+Function factories can also be used to create bootstrap generators.
+
+```{r boot-permute}
+boot_permute <- build_factory(
+  .internal_variables = list(
+    n = nrow(df)
+  ),
+  fun = function() {
+    col <- df[[var]]
+    col[sample(n, replace = TRUE)]
+  },
+  df,
+  var
+)
+
+boot_mtcars1 <- boot_permute(mtcars, "mpg")
+head(boot_mtcars1())
+head(boot_mtcars1())
+```
+
+This is particularly useful when the bootstrap depends on a model.
+
+```{r boot-model}
+boot_model <- build_factory(
+  .internal_variables = list(
+    mod = lm(formula, data = df),
+    fitted_vals = unname(fitted(mod)),
+    resid_vals = unname(resid(mod))
+  ),
+  fun = function() {
+    fitted_vals + sample(resid_vals)
+  },
+  df,
+  formula
+)
+
+boot_mtcars2 <- boot_model(mtcars, mpg ~ wt)
+head(boot_mtcars2())
+head(boot_mtcars2())
+```
+
+## Maximum likelihood estimation
+
+Function factories are also useful for maximum likelihood estimation (MLE). 
+Here we'll compute lambda for a Poisson distribution.
+
+```{r ll-poisson}
+ll_poisson <- build_factory(
+  .internal_variables = list(
+    n = length(x),
+    sum_x = sum(x),
+    c_var = sum(lfactorial(x))
+  ),
+  fun = function(lambda) {
+    log(lambda) * sum_x - n * lambda - c_var
+  },
+  x
+)
+
+# Say we have this vector of observations.
+x1 <- c(41, 30, 31, 38, 29, 24, 30, 29, 31, 38)
+
+ll1 <- ll_poisson(x1)
+
+ll1(10)
+ll1(20)
+ll1(30)
+optimize(ll1, c(0, 100), maximum = TRUE)
+```
+
+We can see that this is a more efficient process than *not* using a function factory.
+
+```{r optim-optim}
+# Slightly change the dataset to prove that the factory version isn't
+# pre-computed. We also need a reasonably large x2 for the efficiency to pay off
+# (it starts to pay off around size = 30, but size = 100 is clearer and closer
+# to a real dataset).
+x2 <- sample(20:50, size = 100, replace = TRUE)
+
+# I'm defining both the factory and the non-factory function outside of optim.
+lprob_poisson <- function(lambda, x) {
+  n <- length(x)
+  (log(lambda) * sum(x)) - (n * lambda) - sum(lfactorial(x))
+}
+
+bench::mark(
+  with_factory = {
+    ll2 <- ll_poisson(x2)
+    optimize(
+      ll2, 
+      c(0, 100), 
+      maximum = TRUE
+    )
+  },
+  without_factory = {
+    optimize(
+      lprob_poisson,
+      c(0, 100),
+      x = x2,
+      maximum = TRUE
+    )
+  }
+)
+```

@@ -1,6 +1,9 @@
 # factory 0.1.0.9000
 
 * Refactored for cleaner code (@TylerGrantSmith).
+* Added vignettes for Advanced R examples (@jonthegeek).
+* Added ability to pass dots from factory to internal functions (@jonthegeek, #23).
+* Added ability to set internal variables in the factory (@jonthegeek, #26).
 
 # factory 0.1.0
 

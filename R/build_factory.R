@@ -152,8 +152,10 @@ build_factory <- function(fun,
 
   if (length(to_do)) {
     child_fn <- purrr::reduce2(
-      names(to_do),
-      to_do,
+      # We want to insert the to_do items at the top, with the first one ending
+      # up first, so we need to insert them in reverse order.
+      rev(names(to_do)),
+      rev(to_do),
       ~ body_insert(
         fn_body = ..1,
         insertion = rlang::call2(
