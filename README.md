@@ -195,12 +195,19 @@ square1
 #> function(x) {
 #>     x ^ exponent
 #>   }
-#> <environment: 0x00000000149dfa40>
+#> <environment: 0x000000001499b588>
 square2
 #> function(x) {
 #>     x ^ exponent
 #>   }
-#> <environment: 0x000000001d130908>
+#> <environment: 0x000000001d0daba8>
+cube <- power2(3)
+cube
+#> function(x) {
+#>     x ^ exponent
+#>   }
+#> <bytecode: 0x000000001db4af70>
+#> <environment: 0x000000001da4d950>
 ```
 
 It isn’t clear what these functions will do, since the definitions of

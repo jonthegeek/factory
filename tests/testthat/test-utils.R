@@ -19,3 +19,18 @@ test_that("body_insert errors appropriately.", {
     regexp = "Please wrap your function"
   )
 })
+
+test_that("body_replace doesn't freak out with NULL.", {
+  test_fun <- function(x_vector) {
+    matrix(x_vector, ncol = 1, dimnames = list(NULL, "x"))
+  }
+  test_body <- body(test_fun)
+  expect_error(
+    body_replace(
+      fn_body = test_body,
+      target = quote(x_vector),
+      replacement = quote("got it!")
+    ),
+    NA
+  )
+})

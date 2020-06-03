@@ -169,6 +169,8 @@ And, in both of these cases, the resulting functions are difficult to understand
 ```{r resulting-functions}
 square1
 square2
+cube <- power2(3)
+cube
 ```
 
 It isn't clear what these functions will do, since the definitions of `exponent` are hidden inside the function environments.

@@ -159,7 +159,7 @@ build_factory <- function(fun,
       ~ body_insert(
         fn_body = ..1,
         insertion = rlang::call2(
-          `<-`,
+          rlang::expr(`<-`),
           rlang::sym(..2),
           ..3
         )
